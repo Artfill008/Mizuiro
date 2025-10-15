@@ -38,6 +38,7 @@ import com.mizuiro.music.ui.components.decorations.WobblyDivider
 import com.mizuiro.music.ui.screens.AudioEffectsLabScreen
 import com.mizuiro.music.ui.screens.DiscoveryScreen
 import com.mizuiro.music.ui.screens.DownloadScreen
+import com.mizuiro.music.ui.screens.GestureSettingsScreen
 import com.mizuiro.music.ui.screens.LibraryScreen
 import com.mizuiro.music.ui.screens.PlaylistCreationScreen
 import com.mizuiro.music.ui.screens.PlayerScreen
@@ -73,6 +74,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var downloadManager: com.mizuiro.music.download.DownloadManager
     
+    @Inject
+    lateinit var gestureController: com.mizuiro.music.gestures.GestureController
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -85,7 +89,8 @@ class MainActivity : ComponentActivity() {
                 MizuiroMusicApp(
                     libraryManager = libraryManager,
                     discoveryEngine = discoveryEngine,
-                    downloadManager = downloadManager
+                    downloadManager = downloadManager,
+                    gestureController = gestureController
                 )
             }
         }
@@ -96,7 +101,8 @@ class MainActivity : ComponentActivity() {
 fun MizuiroMusicApp(
     libraryManager: LibraryManager,
     discoveryEngine: DiscoveryEngine,
-    downloadManager: com.mizuiro.music.download.DownloadManager
+    downloadManager: com.mizuiro.music.download.DownloadManager,
+    gestureController: com.mizuiro.music.gestures.GestureController
 ) {
     // This will be implemented with the main app structure
     // For now, showing a placeholder with the Mizuiro aesthetic
@@ -128,7 +134,8 @@ fun MizuiroMusicApp(
                     onShowEffectsLab = { currentScreen = "effects" },
                     onShowLibrary = { currentScreen = "library" },
                     onShowDiscovery = { currentScreen = "discovery" },
-                    onShowDownloads = { currentScreen = "downloads" }
+                    onShowDownloads = { currentScreen = "downloads" },
+                    onShowGestureSettings = { currentScreen = "gesture_settings" }
                 )
             }
             "player" -> {
@@ -238,6 +245,15 @@ fun MizuiroMusicApp(
                     onBack = { currentScreen = "home" }
                 )
             }
+            "gesture_settings" -> {
+                GestureSettingsScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    gestureController = gestureController,
+                    onBack = { currentScreen = "home" }
+                )
+            }
         }
     }
 }
@@ -249,7 +265,8 @@ fun PlaceholderScreen(
     onShowEffectsLab: () -> Unit = {},
     onShowLibrary: () -> Unit = {},
     onShowDiscovery: () -> Unit = {},
-    onShowDownloads: () -> Unit = {}
+    onShowDownloads: () -> Unit = {},
+    onShowGestureSettings: () -> Unit = {}
 ) {
     // Temporary placeholder screen
     // This will be replaced with the actual app structure
@@ -369,6 +386,13 @@ fun PlaceholderScreen(
                 MizuiroButton(
                     text = "📥 Downloads",
                     onClick = onShowDownloads,
+                    secondary = true,
+                    fullWidth = false
+                )
+                
+                MizuiroButton(
+                    text = "👆 Gestures",
+                    onClick = onShowGestureSettings,
                     secondary = true,
                     fullWidth = false
                 )
