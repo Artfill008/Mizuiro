@@ -24,9 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mizuiro.music.audio.effects.AudioEffect
+import com.mizuiro.music.audio.effects.EffectChain
+import com.mizuiro.music.audio.effects.EffectPreset
+import com.mizuiro.music.ui.components.buttons.MizuiroButton
 import com.mizuiro.music.ui.components.decorations.KawaiiMascot
 import com.mizuiro.music.ui.components.decorations.MascotState
 import com.mizuiro.music.ui.components.decorations.WobblyDivider
+import com.mizuiro.music.ui.screens.AudioEffectsLabScreen
 import com.mizuiro.music.ui.screens.PlayerScreen
 import com.mizuiro.music.ui.theme.Body
 import com.mizuiro.music.ui.theme.CoolWhite
@@ -70,7 +75,7 @@ fun MizuiroMusicApp() {
     // This will be implemented with the main app structure
     // For now, showing a placeholder with the Mizuiro aesthetic
     
-    var showPlayer by remember { mutableStateOf(false) }
+    var currentScreen by remember { mutableStateOf("home") }
     var isPlaying by remember { mutableStateOf(false) }
     var currentPosition by remember { mutableStateOf(0L) }
     var duration by remember { mutableStateOf(240000L) } // 4 minutes
@@ -87,30 +92,51 @@ fun MizuiroMusicApp() {
         // - Search screen
         // - Profile screen
         
-        if (showPlayer) {
-            PlayerScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                isPlaying = isPlaying,
-                currentPosition = currentPosition,
-                duration = duration,
-                onPlayPause = { isPlaying = !isPlaying },
-                onNext = { /* TODO: Implement next track */ },
-                onPrevious = { /* TODO: Implement previous track */ },
-                onSeekTo = { position -> currentPosition = position },
-                onShuffle = { /* TODO: Implement shuffle */ },
-                onRepeat = { /* TODO: Implement repeat */ },
-                onLike = { /* TODO: Implement like */ },
-                onQueue = { /* TODO: Implement queue */ }
-            )
-        } else {
-            PlaceholderScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                onShowPlayer = { showPlayer = true }
-            )
+        when (currentScreen) {
+            "home" -> {
+                PlaceholderScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    onShowPlayer = { currentScreen = "player" },
+                    onShowEffectsLab = { currentScreen = "effects" }
+                )
+            }
+            "player" -> {
+                PlayerScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    isPlaying = isPlaying,
+                    currentPosition = currentPosition,
+                    duration = duration,
+                    onPlayPause = { isPlaying = !isPlaying },
+                    onNext = { /* TODO: Implement next track */ },
+                    onPrevious = { /* TODO: Implement previous track */ },
+                    onSeekTo = { position -> currentPosition = position },
+                    onShuffle = { /* TODO: Implement shuffle */ },
+                    onRepeat = { /* TODO: Implement repeat */ },
+                    onLike = { /* TODO: Implement like */ },
+                    onQueue = { /* TODO: Implement queue */ }
+                )
+            }
+            "effects" -> {
+                AudioEffectsLabScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    onBack = { currentScreen = "home" },
+                    onEffectSelected = { effect -> 
+                        // TODO: Handle effect selection
+                    },
+                    onPresetSelected = { preset -> 
+                        // TODO: Handle preset selection
+                    },
+                    onChainSelected = { chain -> 
+                        // TODO: Handle chain selection
+                    }
+                )
+            }
         }
     }
 }
@@ -118,7 +144,8 @@ fun MizuiroMusicApp() {
 @Composable
 fun PlaceholderScreen(
     modifier: Modifier = Modifier,
-    onShowPlayer: () -> Unit = {}
+    onShowPlayer: () -> Unit = {},
+    onShowEffectsLab: () -> Unit = {}
 ) {
     // Temporary placeholder screen
     // This will be replaced with the actual app structure
@@ -179,17 +206,38 @@ fun PlaceholderScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
             Text(
-                text = "Next Phase Complete!",
+                text = "Phase 3 Complete!",
                 style = H2,
                 color = FadedBlack
             )
             
             Text(
-                text = "YouTube Music integration & Player ready",
+                text = "Audio Effects Lab & Player ready",
                 style = Caption,
                 color = SteelBlue,
                 textAlign = TextAlign.Center
             )
+            
+            Spacer(modifier = Modifier.height(32.dp))
+            
+            // Navigation buttons
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MizuiroButton(
+                    text = "🎵 Player",
+                    onClick = onShowPlayer,
+                    fullWidth = false
+                )
+                
+                MizuiroButton(
+                    text = "🎛️ Effects Lab",
+                    onClick = onShowEffectsLab,
+                    secondary = true,
+                    fullWidth = false
+                )
+            }
             
             Spacer(modifier = Modifier.height(32.dp))
             
