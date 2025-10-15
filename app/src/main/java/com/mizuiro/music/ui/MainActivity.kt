@@ -16,6 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.mizuiro.music.ui.components.decorations.KawaiiMascot
 import com.mizuiro.music.ui.components.decorations.MascotState
 import com.mizuiro.music.ui.components.decorations.WobblyDivider
+import com.mizuiro.music.ui.screens.PlayerScreen
 import com.mizuiro.music.ui.theme.Body
 import com.mizuiro.music.ui.theme.CoolWhite
 import com.mizuiro.music.ui.theme.CyberSilver
@@ -65,6 +70,11 @@ fun MizuiroMusicApp() {
     // This will be implemented with the main app structure
     // For now, showing a placeholder with the Mizuiro aesthetic
     
+    var showPlayer by remember { mutableStateOf(false) }
+    var isPlaying by remember { mutableStateOf(false) }
+    var currentPosition by remember { mutableStateOf(0L) }
+    var duration by remember { mutableStateOf(240000L) } // 4 minutes
+    
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
@@ -77,17 +87,38 @@ fun MizuiroMusicApp() {
         // - Search screen
         // - Profile screen
         
-        PlaceholderScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        )
+        if (showPlayer) {
+            PlayerScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                isPlaying = isPlaying,
+                currentPosition = currentPosition,
+                duration = duration,
+                onPlayPause = { isPlaying = !isPlaying },
+                onNext = { /* TODO: Implement next track */ },
+                onPrevious = { /* TODO: Implement previous track */ },
+                onSeekTo = { position -> currentPosition = position },
+                onShuffle = { /* TODO: Implement shuffle */ },
+                onRepeat = { /* TODO: Implement repeat */ },
+                onLike = { /* TODO: Implement like */ },
+                onQueue = { /* TODO: Implement queue */ }
+            )
+        } else {
+            PlaceholderScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                onShowPlayer = { showPlayer = true }
+            )
+        }
     }
 }
 
 @Composable
 fun PlaceholderScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onShowPlayer: () -> Unit = {}
 ) {
     // Temporary placeholder screen
     // This will be replaced with the actual app structure
@@ -148,13 +179,13 @@ fun PlaceholderScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
             Text(
-                text = "Coming Soon...",
+                text = "Next Phase Complete!",
                 style = H2,
                 color = FadedBlack
             )
             
             Text(
-                text = "This is where the magic happens",
+                text = "YouTube Music integration & Player ready",
                 style = Caption,
                 color = SteelBlue,
                 textAlign = TextAlign.Center
