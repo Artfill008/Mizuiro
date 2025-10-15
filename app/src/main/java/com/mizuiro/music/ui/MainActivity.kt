@@ -28,12 +28,15 @@ import com.mizuiro.music.audio.effects.AudioEffect
 import com.mizuiro.music.audio.effects.EffectChain
 import com.mizuiro.music.audio.effects.EffectPreset
 import com.mizuiro.music.data.model.*
+import com.mizuiro.music.discovery.engine.DiscoveryEngine
+import com.mizuiro.music.discovery.engine.DiscoveryPlaylist
 import com.mizuiro.music.library.manager.LibraryManager
 import com.mizuiro.music.ui.components.buttons.MizuiroButton
 import com.mizuiro.music.ui.components.decorations.KawaiiMascot
 import com.mizuiro.music.ui.components.decorations.MascotState
 import com.mizuiro.music.ui.components.decorations.WobblyDivider
 import com.mizuiro.music.ui.screens.AudioEffectsLabScreen
+import com.mizuiro.music.ui.screens.DiscoveryScreen
 import com.mizuiro.music.ui.screens.LibraryScreen
 import com.mizuiro.music.ui.screens.PlaylistCreationScreen
 import com.mizuiro.music.ui.screens.PlayerScreen
@@ -63,6 +66,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var libraryManager: LibraryManager
     
+    @Inject
+    lateinit var discoveryEngine: DiscoveryEngine
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -72,14 +78,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             MizuiroTheme {
                 // Main app content
-                MizuiroMusicApp(libraryManager = libraryManager)
+                MizuiroMusicApp(
+                    libraryManager = libraryManager,
+                    discoveryEngine = discoveryEngine
+                )
             }
         }
     }
 }
 
 @Composable
-fun MizuiroMusicApp(libraryManager: LibraryManager) {
+fun MizuiroMusicApp(
+    libraryManager: LibraryManager,
+    discoveryEngine: DiscoveryEngine
+) {
     // This will be implemented with the main app structure
     // For now, showing a placeholder with the Mizuiro aesthetic
     
@@ -108,7 +120,8 @@ fun MizuiroMusicApp(libraryManager: LibraryManager) {
                         .padding(paddingValues),
                     onShowPlayer = { currentScreen = "player" },
                     onShowEffectsLab = { currentScreen = "effects" },
-                    onShowLibrary = { currentScreen = "library" }
+                    onShowLibrary = { currentScreen = "library" },
+                    onShowDiscovery = { currentScreen = "discovery" }
                 )
             }
             "player" -> {
@@ -168,6 +181,30 @@ fun MizuiroMusicApp(libraryManager: LibraryManager) {
                     onSearch = { /* TODO: Implement search */ }
                 )
             }
+            "discovery" -> {
+                DiscoveryScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    discoveryEngine = discoveryEngine,
+                    onTrackSelected = { track -> 
+                        // TODO: Handle track selection
+                    },
+                    onArtistSelected = { artist -> 
+                        // TODO: Handle artist selection
+                    },
+                    onPlaylistSelected = { playlist -> 
+                        // TODO: Handle playlist selection
+                    },
+                    onMoodSelected = { mood -> 
+                        // TODO: Handle mood selection
+                    },
+                    onGenreSelected = { genre -> 
+                        // TODO: Handle genre selection
+                    },
+                    onBack = { currentScreen = "home" }
+                )
+            }
             "create_playlist" -> {
                 PlaylistCreationScreen(
                     modifier = Modifier
@@ -191,7 +228,8 @@ fun PlaceholderScreen(
     modifier: Modifier = Modifier,
     onShowPlayer: () -> Unit = {},
     onShowEffectsLab: () -> Unit = {},
-    onShowLibrary: () -> Unit = {}
+    onShowLibrary: () -> Unit = {},
+    onShowDiscovery: () -> Unit = {}
 ) {
     // Temporary placeholder screen
     // This will be replaced with the actual app structure
@@ -252,13 +290,13 @@ fun PlaceholderScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
             Text(
-                text = "Phase 4 Complete!",
+                text = "Phase 5 Complete!",
                 style = H2,
                 color = FadedBlack
             )
             
             Text(
-                text = "Library Management & Playlist Creation ready",
+                text = "Discovery Engine & AI Recommendations ready",
                 style = Caption,
                 color = SteelBlue,
                 textAlign = TextAlign.Center
@@ -297,8 +335,8 @@ fun PlaceholderScreen(
                 )
                 
                 MizuiroButton(
-                    text = "🔍 Search",
-                    onClick = { /* TODO: Implement search */ },
+                    text = "🔍 Discovery",
+                    onClick = onShowDiscovery,
                     secondary = true,
                     fullWidth = false
                 )
