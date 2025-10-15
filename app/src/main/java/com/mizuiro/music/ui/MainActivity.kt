@@ -27,11 +27,15 @@ import androidx.compose.ui.unit.dp
 import com.mizuiro.music.audio.effects.AudioEffect
 import com.mizuiro.music.audio.effects.EffectChain
 import com.mizuiro.music.audio.effects.EffectPreset
+import com.mizuiro.music.data.model.*
+import com.mizuiro.music.library.manager.LibraryManager
 import com.mizuiro.music.ui.components.buttons.MizuiroButton
 import com.mizuiro.music.ui.components.decorations.KawaiiMascot
 import com.mizuiro.music.ui.components.decorations.MascotState
 import com.mizuiro.music.ui.components.decorations.WobblyDivider
 import com.mizuiro.music.ui.screens.AudioEffectsLabScreen
+import com.mizuiro.music.ui.screens.LibraryScreen
+import com.mizuiro.music.ui.screens.PlaylistCreationScreen
 import com.mizuiro.music.ui.screens.PlayerScreen
 import com.mizuiro.music.ui.theme.Body
 import com.mizuiro.music.ui.theme.CoolWhite
@@ -45,6 +49,7 @@ import com.mizuiro.music.ui.theme.SteelBlue
 import com.mizuiro.music.ui.theme.VT323Style
 import com.mizuiro.music.ui.theme.Caption
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Main Activity for Mizuiro Music
@@ -55,6 +60,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     
+    @Inject
+    lateinit var libraryManager: LibraryManager
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -64,14 +72,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             MizuiroTheme {
                 // Main app content
-                MizuiroMusicApp()
+                MizuiroMusicApp(libraryManager = libraryManager)
             }
         }
     }
 }
 
 @Composable
-fun MizuiroMusicApp() {
+fun MizuiroMusicApp(libraryManager: LibraryManager) {
     // This will be implemented with the main app structure
     // For now, showing a placeholder with the Mizuiro aesthetic
     
@@ -99,7 +107,8 @@ fun MizuiroMusicApp() {
                         .fillMaxSize()
                         .padding(paddingValues),
                     onShowPlayer = { currentScreen = "player" },
-                    onShowEffectsLab = { currentScreen = "effects" }
+                    onShowEffectsLab = { currentScreen = "effects" },
+                    onShowLibrary = { currentScreen = "library" }
                 )
             }
             "player" -> {
@@ -137,6 +146,42 @@ fun MizuiroMusicApp() {
                     }
                 )
             }
+            "library" -> {
+                LibraryScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    libraryManager = libraryManager,
+                    onTrackSelected = { track -> 
+                        // TODO: Handle track selection
+                    },
+                    onPlaylistSelected = { playlist -> 
+                        // TODO: Handle playlist selection
+                    },
+                    onArtistSelected = { artist -> 
+                        // TODO: Handle artist selection
+                    },
+                    onAlbumSelected = { album -> 
+                        // TODO: Handle album selection
+                    },
+                    onCreatePlaylist = { currentScreen = "create_playlist" },
+                    onSearch = { /* TODO: Implement search */ }
+                )
+            }
+            "create_playlist" -> {
+                PlaylistCreationScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    libraryManager = libraryManager,
+                    onBack = { currentScreen = "library" },
+                    onSave = { playlist -> 
+                        // TODO: Handle playlist save
+                        currentScreen = "library"
+                    },
+                    onCancel = { currentScreen = "library" }
+                )
+            }
         }
     }
 }
@@ -145,7 +190,8 @@ fun MizuiroMusicApp() {
 fun PlaceholderScreen(
     modifier: Modifier = Modifier,
     onShowPlayer: () -> Unit = {},
-    onShowEffectsLab: () -> Unit = {}
+    onShowEffectsLab: () -> Unit = {},
+    onShowLibrary: () -> Unit = {}
 ) {
     // Temporary placeholder screen
     // This will be replaced with the actual app structure
@@ -206,13 +252,13 @@ fun PlaceholderScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
             Text(
-                text = "Phase 3 Complete!",
+                text = "Phase 4 Complete!",
                 style = H2,
                 color = FadedBlack
             )
             
             Text(
-                text = "Audio Effects Lab & Player ready",
+                text = "Library Management & Playlist Creation ready",
                 style = Caption,
                 color = SteelBlue,
                 textAlign = TextAlign.Center
@@ -234,6 +280,25 @@ fun PlaceholderScreen(
                 MizuiroButton(
                     text = "🎛️ Effects Lab",
                     onClick = onShowEffectsLab,
+                    secondary = true,
+                    fullWidth = false
+                )
+            }
+            
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MizuiroButton(
+                    text = "📚 Library",
+                    onClick = onShowLibrary,
+                    secondary = true,
+                    fullWidth = false
+                )
+                
+                MizuiroButton(
+                    text = "🔍 Search",
+                    onClick = { /* TODO: Implement search */ },
                     secondary = true,
                     fullWidth = false
                 )
