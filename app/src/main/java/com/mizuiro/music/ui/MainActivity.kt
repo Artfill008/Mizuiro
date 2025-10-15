@@ -37,6 +37,7 @@ import com.mizuiro.music.ui.components.decorations.MascotState
 import com.mizuiro.music.ui.components.decorations.WobblyDivider
 import com.mizuiro.music.ui.screens.AudioEffectsLabScreen
 import com.mizuiro.music.ui.screens.DiscoveryScreen
+import com.mizuiro.music.ui.screens.DownloadScreen
 import com.mizuiro.music.ui.screens.LibraryScreen
 import com.mizuiro.music.ui.screens.PlaylistCreationScreen
 import com.mizuiro.music.ui.screens.PlayerScreen
@@ -69,6 +70,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var discoveryEngine: DiscoveryEngine
     
+    @Inject
+    lateinit var downloadManager: com.mizuiro.music.download.DownloadManager
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -80,7 +84,8 @@ class MainActivity : ComponentActivity() {
                 // Main app content
                 MizuiroMusicApp(
                     libraryManager = libraryManager,
-                    discoveryEngine = discoveryEngine
+                    discoveryEngine = discoveryEngine,
+                    downloadManager = downloadManager
                 )
             }
         }
@@ -90,7 +95,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MizuiroMusicApp(
     libraryManager: LibraryManager,
-    discoveryEngine: DiscoveryEngine
+    discoveryEngine: DiscoveryEngine,
+    downloadManager: com.mizuiro.music.download.DownloadManager
 ) {
     // This will be implemented with the main app structure
     // For now, showing a placeholder with the Mizuiro aesthetic
@@ -121,7 +127,8 @@ fun MizuiroMusicApp(
                     onShowPlayer = { currentScreen = "player" },
                     onShowEffectsLab = { currentScreen = "effects" },
                     onShowLibrary = { currentScreen = "library" },
-                    onShowDiscovery = { currentScreen = "discovery" }
+                    onShowDiscovery = { currentScreen = "discovery" },
+                    onShowDownloads = { currentScreen = "downloads" }
                 )
             }
             "player" -> {
@@ -219,6 +226,18 @@ fun MizuiroMusicApp(
                     onCancel = { currentScreen = "library" }
                 )
             }
+            "downloads" -> {
+                DownloadScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    downloadManager = downloadManager,
+                    onTrackSelected = { trackId -> 
+                        // TODO: Handle track selection
+                    },
+                    onBack = { currentScreen = "home" }
+                )
+            }
         }
     }
 }
@@ -229,7 +248,8 @@ fun PlaceholderScreen(
     onShowPlayer: () -> Unit = {},
     onShowEffectsLab: () -> Unit = {},
     onShowLibrary: () -> Unit = {},
-    onShowDiscovery: () -> Unit = {}
+    onShowDiscovery: () -> Unit = {},
+    onShowDownloads: () -> Unit = {}
 ) {
     // Temporary placeholder screen
     // This will be replaced with the actual app structure
@@ -290,13 +310,13 @@ fun PlaceholderScreen(
             Spacer(modifier = Modifier.height(24.dp))
             
             Text(
-                text = "Phase 5 Complete!",
+                text = "Phase 6 Complete!",
                 style = H2,
                 color = FadedBlack
             )
             
             Text(
-                text = "Discovery Engine & AI Recommendations ready",
+                text = "Smart Downloads & Offline Listening ready",
                 style = Caption,
                 color = SteelBlue,
                 textAlign = TextAlign.Center
@@ -337,6 +357,18 @@ fun PlaceholderScreen(
                 MizuiroButton(
                     text = "🔍 Discovery",
                     onClick = onShowDiscovery,
+                    secondary = true,
+                    fullWidth = false
+                )
+            }
+            
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MizuiroButton(
+                    text = "📥 Downloads",
+                    onClick = onShowDownloads,
                     secondary = true,
                     fullWidth = false
                 )
