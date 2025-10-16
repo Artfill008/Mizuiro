@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mizuiro Color Palette -->
+    
+    <!-- Primary Colors -->
+    <color name="mizuiro_light">#D4F1F9</color>
+    <color name="mizuiro_base">#A8E6F0</color>
+    <color name="mizuiro_medium">#7DD3E5</color>
+    
+    <!-- Background Colors -->
+    <color name="cool_white">#F5F8FA</color>
+    <color name="icy_grey">#E8EDEF</color>
+    <color name="concrete">#D3D8DB</color>
+    
+    <!-- Accent Colors -->
+    <color name="steel_blue">#B8C5D0</color>
+    <color name="cyber_silver">#C8D4DC</color>
+    <color name="faded_black">#4A5860</color>
+    
+    <!-- Kawaii Accent Colors -->
+    <color name="blush_pink">#FFD4E5</color>
+    <color name="pastel_lavender">#E8E4F3</color>
+    
+    <!-- System Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    
+    <!-- Material Design Overrides (for compatibility) -->
+    <color name="md_theme_light_primary">@color/mizuiro_base</color>
+    <color name="md_theme_light_on_primary">@color/faded_black</color>
+    <color name="md_theme_light_secondary">@color/steel_blue</color>
+    <color name="md_theme_light_on_secondary">@color/faded_black</color>
+    <color name="md_theme_light_tertiary">@color/blush_pink</color>
+    <color name="md_theme_light_on_tertiary">@color/faded_black</color>
+    <color name="md_theme_light_error">@color/blush_pink</color>
+    <color name="md_theme_light_on_error">@color/faded_black</color>
+    <color name="md_theme_light_background">@color/cool_white</color>
+    <color name="md_theme_light_on_background">@color/faded_black</color>
+    <color name="md_theme_light_surface">@color/cool_white</color>
+    <color name="md_theme_light_on_surface">@color/faded_black</color>
+    <color name="md_theme_light_surface_variant">@color/icy_grey</color>
+    <color name="md_theme_light_on_surface_variant">@color/steel_blue</color>
+    <color name="md_theme_light_outline">@color/cyber_silver</color>
+    <color name="md_theme_light_outline_variant">@color/icy_grey</color>
+    <color name="md_theme_light_shadow">@color/black</color>
+    <color name="md_theme_light_scrim">@color/black</color>
+    <color name="md_theme_light_inverse_surface">@color/faded_black</color>
+    <color name="md_theme_light_inverse_on_surface">@color/cool_white</color>
+    <color name="md_theme_light_inverse_primary">@color/mizuiro_light</color>
+</resources>

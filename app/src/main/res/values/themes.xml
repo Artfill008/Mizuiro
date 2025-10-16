@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mizuiro Theme -->
+    <style name="Theme.MizuiroMusic" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary colors -->
+        <item name="colorPrimary">@color/mizuiro_base</item>
+        <item name="colorOnPrimary">@color/faded_black</item>
+        <item name="colorPrimaryContainer">@color/mizuiro_light</item>
+        <item name="colorOnPrimaryContainer">@color/faded_black</item>
+        
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/steel_blue</item>
+        <item name="colorOnSecondary">@color/faded_black</item>
+        <item name="colorSecondaryContainer">@color/icy_grey</item>
+        <item name="colorOnSecondaryContainer">@color/faded_black</item>
+        
+        <!-- Tertiary colors -->
+        <item name="colorTertiary">@color/blush_pink</item>
+        <item name="colorOnTertiary">@color/faded_black</item>
+        <item name="colorTertiaryContainer">@color/pastel_lavender</item>
+        <item name="colorOnTertiaryContainer">@color/faded_black</item>
+        
+        <!-- Error colors -->
+        <item name="colorError">@color/blush_pink</item>
+        <item name="colorOnError">@color/faded_black</item>
+        <item name="colorErrorContainer">@color/pastel_lavender</item>
+        <item name="colorOnErrorContainer">@color/faded_black</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/cool_white</item>
+        <item name="colorOnBackground">@color/faded_black</item>
+        <item name="colorSurface">@color/cool_white</item>
+        <item name="colorOnSurface">@color/faded_black</item>
+        <item name="colorSurfaceVariant">@color/icy_grey</item>
+        <item name="colorOnSurfaceVariant">@color/steel_blue</item>
+        
+        <!-- Outline colors -->
+        <item name="colorOutline">@color/cyber_silver</item>
+        <item name="colorOutlineVariant">@color/icy_grey</item>
+        
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/cool_white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@color/cool_white</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        
+        <!-- Window background -->
+        <item name="android:windowBackground">@color/cool_white</item>
+        
+        <!-- Disable Material Design ripple effects -->
+        <item name="android:selectableItemBackground">@android:color/transparent</item>
+        <item name="android:selectableItemBackgroundBorderless">@android:color/transparent</item>
+    </style>
+    
+    <!-- Splash Screen Theme -->
+    <style name="Theme.MizuiroMusic.Splash" parent="Theme.MizuiroMusic">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>
